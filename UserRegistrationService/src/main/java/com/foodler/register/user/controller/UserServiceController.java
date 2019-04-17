@@ -1,11 +1,12 @@
 package com.foodler.register.user.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,23 +52,41 @@ public class UserServiceController {
 		if(user.getUserType().equalsIgnoreCase(vendorText)) {
 		 user.setShopId(String.valueOf(user.getUserId()));
 		}
-		try {
-			user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().getBytes("utf-8")));
-		} catch (UnsupportedEncodingException e) {
-		}
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		RegisterVo createdUser = userService.saveUserDetails(user);
 
 		return createdUser;
 	}
 	
-	@GetMapping(value = "/getUserDetails", produces = "application/json")
+	@GetMapping(value = "/isValidUserCredentials/{emailId}/{password}", produces = "application/json")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Successful added user details"),
+			@ApiResponse(code = 200, message = "Successful validated user details"),
 			@ApiResponse(code = 500, message = "Internal error"),
-			@ApiResponse(code = 404, message = "Error while retrieving the data") })
-	@ApiOperation(value = "Get user Details", notes = "This API is used to get user details")
+			@ApiResponse(code = 404, message = "Error while validating the data"),
+			@ApiResponse(code = 201, message = "Successfully validated user credentials") })
+	@ApiOperation(value = "Get user Details", notes = "This API is used to validate user details")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public RegisterVo getUserByEmailId(@PathVariable String emailId) {
-		return userService.findUserbyEmailId(emailId);
+	public Boolean isValidUser(@PathVariable (required = true) String emailId,@PathVariable (required = true) String password) {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return userService.isValidUser(emailId,password,passwordEncoder);
+	}
+	
+	@GetMapping(value = "/findUserByEmailId/{emailId}", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successful validated user details"),
+			@ApiResponse(code = 500, message = "Internal error"),
+			@ApiResponse(code = 404, message = "Error while validating the data"),
+			@ApiResponse(code = 201, message = "Successfully validated user credentials") })
+	@ApiOperation(value = "Get user Details", notes = "This API is used to validate user details")
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public RegisterVo findUserByEmailId(@PathVariable (required = true) String emailId) {
+		Map<String,String> userMap= new HashMap<>();
+		if(null!=userService.findUserByUserName(emailId)) {
+		  userMap.put("userName", userService.findUserByUserName(emailId).getEmailId());
+		  userMap.put("password", userService.findUserByUserName(emailId).getPassword());
+		  return userService.findUserByUserName(emailId);
+		}
+		return null;
 	}
 }

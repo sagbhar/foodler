@@ -1,14 +1,13 @@
-package com.foodler.register;
+package com.foodler.login;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UserRegistrationServiceApplication {
+public class UserLoginServiceApplication {
 
-	 
 	public static void main(String[] args) {
-		SpringApplication.run(UserRegistrationServiceApplication.class, args);
+		SpringApplication.run(UserLoginServiceApplication.class, args);
 	}
 
 }

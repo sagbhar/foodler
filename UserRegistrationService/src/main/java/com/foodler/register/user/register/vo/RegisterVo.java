@@ -112,5 +112,11 @@ public class RegisterVo {
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
 	}
+	@Override
+	public String toString() {
+		return "RegisterVo [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", mobNum="
+				+ mobNum + ", emailId=" + emailId + ", password=" + password + ", userType=" + userType + ", shopId="
+				+ shopId + ", shopName=" + shopName + "]";
+	}
   
 }
