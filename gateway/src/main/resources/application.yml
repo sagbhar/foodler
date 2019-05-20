@@ -15,6 +15,14 @@ zuul:
       url: http://localhost:9014/api/login
       sensitiveHeaders:
       serviceId: login
+    catalog:
+      url: http://localhost:9016/api
+      sensitiveHeaders:
+      serviceId: catalog
+    register:
+      url: http://localhost:9012/api
+      sensitiveHeaders:
+      serviceId: register
     auth:
       path: /auth/**
       sensitiveHeaders:

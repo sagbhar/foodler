@@ -3,6 +3,7 @@ package com.foodler.login.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +24,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api")
 @CrossOrigin
 public class UserLoginController {
-
+	
+	@Value("${transaction.findUserByEmailId.URL}")
+	String transactionUrl;
+	
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successful added user details"),
@@ -34,7 +38,7 @@ public class UserLoginController {
 	public RegisterVo login() throws Exception {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String loggedUser = principal.toString();
-		String transactionUrl = "http://localhost:9012/api/findUserByEmailId/{username}";
+		//String transactionUrl = "http://localhost:9012/api/findUserByEmailId/{username}";
 		UriComponentsBuilder builder = UriComponentsBuilder
 				.fromUriString(transactionUrl);
 

@@ -1,17 +1,15 @@
 package com.foodler.oauth.config;
 
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +20,9 @@ public class UserVO implements UserDetailsService{
 	
 	
 	String emailId, password, role, access_token;
+	
+	@Value("${transaction.findUserByEmailId.URL}")
+	String transactionUrl;
 	
 	 public UserVO() {
 		 super();
@@ -66,7 +67,7 @@ public class UserVO implements UserDetailsService{
     }
 	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		 String transactionUrl = "http://localhost:9012/api/findUserByEmailId/{username}";
+		 //String transactionUrl = "http://localhost:9012/api/findUserByEmailId/{username}";
 		 UriComponentsBuilder builder = UriComponentsBuilder
                  .fromUriString(transactionUrl);
              

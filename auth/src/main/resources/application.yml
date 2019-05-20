@@ -4,8 +4,12 @@ server:
 spring:  
   application:
     name: auth-server
+  profiles:
+    active: local
  
     
 logging:
   level:
     org.springframework.security: debug
+
+  
