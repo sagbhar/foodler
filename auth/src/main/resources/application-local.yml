@@ -1,0 +1,3 @@
+transaction:
+  findUserByEmailId:
+    URL: http://localhost:8765/register/findUserByEmailId/{username}
