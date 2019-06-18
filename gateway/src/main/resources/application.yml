@@ -12,7 +12,7 @@ logging:
 zuul:
   routes:  
     login:
-      url: http://localhost:9014/api/login
+      url: http://localhost:9014/api
       sensitiveHeaders:
       serviceId: login
     catalog:
@@ -24,7 +24,6 @@ zuul:
       sensitiveHeaders:
       serviceId: register
     auth:
-      path: /auth/**
       sensitiveHeaders:
       url: http://localhost:9999/oauth
       serviceId: auth-server

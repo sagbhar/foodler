@@ -3,9 +3,14 @@ package com.foodler.login.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +33,9 @@ public class UserLoginController {
 	@Value("${transaction.findUserByEmailId.URL}")
 	String transactionUrl;
 	
+	@Resource(name = "tokenServices")
+	ConsumerTokenServices tokenServices;
+	
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successful added user details"),
@@ -47,6 +55,22 @@ public class UserLoginController {
 		RestTemplate restTemplate = new RestTemplate();
 		RegisterVo response = restTemplate.getForObject(builder.build().toString(), RegisterVo.class,userCredentialsMap);
 		return response;
+	}
+	
+	@RequestMapping(path = "/logout", method = RequestMethod.POST)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successful logs out user"),
+			@ApiResponse(code = 500, message = "Internal error"),
+			@ApiResponse(code = 404, message = "Error while logging out user") })
+	@ApiOperation(value = "Logs out the user", notes = "This API is used to logout the user")
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public void logout() throws Exception {
+		OAuth2AuthenticationDetails tokenDetails = (OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+		String tokenValue=tokenDetails.getTokenValue();
+		if(!StringUtils.isEmpty(tokenValue)) {
+			
+		}
+			//tokenServices.setAccessTokenValiditySeconds(0);
 	}
 
 

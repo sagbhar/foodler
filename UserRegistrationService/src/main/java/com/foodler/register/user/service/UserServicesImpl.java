@@ -31,9 +31,14 @@ public class UserServicesImpl implements UserServices {
 	public RegisterVo saveUserDetails(RegisterVo user) throws Exception {
 		if (user.getUserType().equalsIgnoreCase(vendorText) && !StringUtils.isEmpty(user.getShopName())) {
 			user.setShopId(String.valueOf(user.getUserId()));
-		} else
+		} else if (user.getUserType().equalsIgnoreCase(vendorText) && StringUtils.isEmpty(user.getShopName())) {
 			throw new Exception("Please provice shopName");
-
+		}
+		if (user.getUserType().equalsIgnoreCase("1")) {
+			user.setUserType("Employee");
+		}else if (user.getUserType().equalsIgnoreCase("2")) {
+			user.setUserType("Vendor");
+		}
 		List<RegisterVo> registeredUsers = findAllUsers();
 		String shopName=user.getShopName();
 		registeredUsers.stream().forEach(regUser -> {
