@@ -113,7 +113,6 @@ export class UserRegistrationForm extends Component {
             <h2>User Registration Form</h2>
             <Form noValidate
                 validated={validated}
-                //onSubmit={e => this.handleSubmit(e)}
             >
                 <Form.Group as={Col} controlId="formFirstName">
                     <Form.Label>First Name</Form.Label>
