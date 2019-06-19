@@ -27,7 +27,6 @@ zuul:
       sensitiveHeaders:
       url: http://localhost:9999/oauth
       serviceId: auth-server
-
   
 security:
   oauth2:
