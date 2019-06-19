@@ -8,33 +8,30 @@ import desktopImage from './homepage.jpg';
 import mobileImage from './homepage.jpg';
 import Logo from './logo1.png';
 import Image from 'react-bootstrap/Image';
-import { instanceOf } from 'prop-types';
-import { Cookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 
 export class Login extends Component {
-    static propTypes = {
-        cookies: instanceOf(Cookies)
-      };
+    
     constructor(props) {
         super(props);
-        
+        this.handleDismiss = this.handleDismiss.bind(this);
         this.state = {
             justClicked: true,
             validated: false,
             error:'',
             message:'',
             data:'',
-            show: true
+            show: true,
+            access_token:''
         };
       }
     
-     
       handleDismiss(event){
         this.setState({ show: false });
       }
       handleTokenGenerate(){
         const formData = new URLSearchParams();
-
+        const cookies = new Cookies();
         formData.append('grant_type', 'password');
         formData.append('username', this.refs.emailId.value);
         formData.append('password', this.refs.password.value);
@@ -47,17 +44,17 @@ export class Login extends Component {
           
           fetch('http://localhost:8765/auth/token', {
               method: 'POST',
-              credentials: 'include',
               headers: headers,
               body: formData,
           })
-              .then(res => {
+              .then(res => { 
                   return res.json();
               })
               .then((data) => {
                   if (typeof data.access_token !== 'undefined') {
-                      const { cookies } = this.props;
-                      cookies.set("AccessToken", data.access_token, { httpOnly: true });
+                     cookies.set("AccessToken", data.access_token, { httpOnly: true });
+                     this.setState({ access_token: data.access_token });
+                     this.handleLogin();
                   } else {
                       this.setState({ message: "Login Failed" });
                       this.setState({ error: true });
@@ -67,7 +64,28 @@ export class Login extends Component {
                   console.error("ErrorData" + error);
               });
       }
-        
+      handleLogin(){
+        fetch('http://localhost:8765/login/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+ this.state.access_token,
+            },
+            body: '',
+            })  
+                .then((res) => {
+                    return res.json();
+                })
+                .then((data) => {
+                    console.log("loginData"+data);
+                    
+                })
+                .catch((error) => {
+                    console.error("ErrorData" + error);
+                });
+      }  
+
       handleSubmit(event) {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -90,7 +108,7 @@ export class Login extends Component {
         const { show } = this.state;
         const imageUrl = window.innerWidth >= 650 ? desktopImage : mobileImage;
         let errorDisplay;
-        if(error) {
+        if(""!==error && 'undefined'!==typeof error && show) {
             errorDisplay =   <Alert onClose={(e) => this.handleDismiss(e)} dismissible variant='danger'>
                                 <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
                                 {error}{message}
