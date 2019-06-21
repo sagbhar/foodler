@@ -1,16 +1,28 @@
-import React, { Component } from 'react';
-import './App.css';
-
-
-import { HomePage } from './HomePage';
-import { CookiesProvider } from 'react-cookie';
+import React, { Component } from "react";
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { Landing } from './components/Landing';
+import Registration from './components/Registration';
+import Login from './components/Login';
+import "./App.css";
+import { CookiesProvider } from "react-cookie";
+import Header from './components/Header';
+import VendorCatalog from './components/VendorCatalog';
 
 class App extends Component {
-
   render() {
-    return (  
+    return (
       <CookiesProvider>
-        <HomePage />
+        <Router>
+          <div className="app">
+            <Header/>
+            <div className="app-container">
+              <Route exact path="/" component={Landing} />
+              <Route exact path="/register" component={Registration} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/vendorCatalog" component={VendorCatalog} />
+            </div>
+          </div>
+        </Router>
       </CookiesProvider>
     );
   }
