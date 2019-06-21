@@ -4,10 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import ReactDOM from 'react-dom';
 import Alert from 'react-bootstrap/Alert';
-import desktopImage from '../img/landingImage.jpg';
-import mobileImage from '../img/landingImage.jpg';
-import Logo from '../logo1.png';
-import Image from 'react-bootstrap/Image';
 import Cookies from 'universal-cookie';
 
 export class Login extends Component {
@@ -106,7 +102,7 @@ export class Login extends Component {
         const { error } = this.state;
         const { message } = this.state;
         const { show } = this.state;
-        const imageUrl = window.innerWidth >= 650 ? desktopImage : mobileImage;
+       
         let errorDisplay;
         if(""!==error && 'undefined'!==typeof error && show) {
             errorDisplay =   <Alert onClose={(e) => this.handleDismiss(e)} dismissible variant='danger'>
@@ -114,18 +110,13 @@ export class Login extends Component {
                                 {error}{message}
                             </Alert>
         }
-        return (<div className="App" style={{backgroundImage: `url(${imageUrl})` }}>
-        
-        <div className="App-content">
-        <div className="fixed-top">
-            <Image src={Logo} rounded thumbnail='true' width='70' height='40'/>
-        </div>
-            <div className="container border border-light p-3 mb-2 bg-light text-dark">
+        return (
+            <div className="container">
             {errorDisplay}
+            <div className="border border-light p-3 mb-2 bg-light text-dark">
             <h2>Login Page</h2>
             <Form noValidate
-                validated={validated}
-            >
+                validated={validated}>
 
                 <Form.Group as={Col} controlId="formEmail">
                     <Form.Label>Email Address</Form.Label>
@@ -149,7 +140,7 @@ export class Login extends Component {
                 </Button>
             </Form>
             
-        </div></div></div> );
+        </div></div> );
         
     }
 }

@@ -5,6 +5,8 @@ import Registration from './components/Registration';
 import Login from './components/Login';
 import "./App.css";
 import { CookiesProvider } from "react-cookie";
+import Header from './components/Header';
+import VendorCatalog from './components/VendorCatalog';
 
 class App extends Component {
   render() {
@@ -12,10 +14,12 @@ class App extends Component {
       <CookiesProvider>
         <Router>
           <div className="app">
-            <Route exact path="/" component={Landing} />
+            <Header/>
             <div className="app-container">
+              <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Registration} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/vendorCatalog" component={VendorCatalog} />
             </div>
           </div>
         </Router>

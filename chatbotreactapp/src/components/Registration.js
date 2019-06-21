@@ -112,8 +112,7 @@ export class Registration extends Component {
             {errorDisplay}
             <h2>User Registration Form</h2>
             <Form noValidate
-                validated={validated}
-            >
+                validated={validated}>
                 <Form.Group as={Col} controlId="formFirstName">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control placeholder="First Name" ref ='firstName' required/>
