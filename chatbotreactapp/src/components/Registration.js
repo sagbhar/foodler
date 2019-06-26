@@ -65,7 +65,7 @@ export class Registration extends Component {
                 })
                 .then((data) => {
                     if(typeof data.status==='undefined'){
-                        this.props.history.push('/home');
+                        this.props.history.push('/login');
                     }else{
                         this.setState({ message: data.message });
                         this.setState({ error: data.error });

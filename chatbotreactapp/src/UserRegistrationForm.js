@@ -3,7 +3,12 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import ReactDOM from 'react-dom';
-import Alert from 'react-bootstrap/Alert'
+import Logo from './logo1.png';
+import desktopImage from './homepage.jpg';
+import mobileImage from './homepage.jpg';
+import Image from 'react-bootstrap/Image';
+import Alert from 'react-bootstrap/Alert';
+import './UserRegistrationForm.css';
 
 export class UserRegistrationForm extends Component {
     constructor(props) {
@@ -11,6 +16,7 @@ export class UserRegistrationForm extends Component {
         this.handleUserTypeSelection = this.handleUserTypeSelection.bind(this);
         this.handleDismiss = this.handleDismiss.bind(this);
         this.formValidation = this.formValidation.bind(this);
+        this.loadHomePage = this.loadHomePage.bind(this);
         this.state = {
             justClicked: true,
             validated: false,
@@ -65,7 +71,7 @@ export class UserRegistrationForm extends Component {
                 })
                 .then((data) => {
                     if(typeof data.status==='undefined'){
-                        this.props.history.push('/home');
+                        this.props.history.push('/login');
                     }else{
                         this.setState({ message: data.message });
                         this.setState({ error: data.error });
@@ -96,11 +102,15 @@ export class UserRegistrationForm extends Component {
         return false;
     }
 
+    loadHomePage(){
+        this.props.history.push('/home');
+    }
     render() { 
         const { validated } = this.state;
         const { error } = this.state;
         const { message } = this.state;
         const { show } = this.state;
+        const imageUrl = window.innerWidth >= 650 ? desktopImage : mobileImage;
         let errorDisplay;
         if(""!==error && 'undefined'!==typeof error && show) {
             errorDisplay =   <Alert onClose={(e) => this.handleDismiss(e)} dismissible variant='danger'>
@@ -108,8 +118,13 @@ export class UserRegistrationForm extends Component {
                                 {error} Caused By {message}
                             </Alert>
         }
-        return (<div className="container">
-            {errorDisplay}
+        return (<div className="AppReg" style={{backgroundImage: `url(${imageUrl})` }}>
+        
+        <div className="App-content">
+        <div className="fixed-top">
+            <Image src={Logo} rounded thumbnail='true' width='70' height='40' onClick={this.loadHomePage}/>
+        </div>
+            <div className="container border border-light p-3 mb-2 bg-light text-dark">
             <h2>User Registration Form</h2>
             <Form noValidate
                 validated={validated}
@@ -180,7 +195,7 @@ export class UserRegistrationForm extends Component {
                 </Button>
             </Form>
             
-        </div> );
+        </div></div></div>);
         
     }
 }

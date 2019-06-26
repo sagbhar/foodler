@@ -19,7 +19,7 @@ class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route exact path="/register" component={Registration} />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/vendorList" component={VendorList} />
+              <Route exact path="/catalog" component={VendorList} />
             </div>
           </div>
         </Router>

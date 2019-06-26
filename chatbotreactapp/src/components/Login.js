@@ -48,7 +48,7 @@ export class Login extends Component {
               })
               .then((data) => {
                   if (typeof data.access_token !== 'undefined') {
-                     cookies.set("AccessToken", data.access_token, { httpOnly: true });
+                     cookies.set("AccessToken", data.access_token, { path: '/', maxAge: 50000 });
                      this.setState({ access_token: data.access_token });
                      this.handleLogin();
                   } else {
@@ -75,6 +75,7 @@ export class Login extends Component {
                 })
                 .then((data) => {
                     console.log("loginData"+data);
+                    this.props.history.push('/catalog');
                     
                 })
                 .catch((error) => {

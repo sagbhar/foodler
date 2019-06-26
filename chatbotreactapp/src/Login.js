@@ -15,6 +15,7 @@ export class Login extends Component {
     constructor(props) {
         super(props);
         this.handleDismiss = this.handleDismiss.bind(this);
+        this.loadHomePage = this.loadHomePage.bind(this);
         this.state = {
             justClicked: true,
             validated: false,
@@ -52,7 +53,7 @@ export class Login extends Component {
               })
               .then((data) => {
                   if (typeof data.access_token !== 'undefined') {
-                     cookies.set("AccessToken", data.access_token, { httpOnly: true });
+                     cookies.set("AccessToken", data.access_token, { path: '/', expires: new Date(Date.now()+2592000) });
                      this.setState({ access_token: data.access_token });
                      this.handleLogin();
                   } else {
@@ -79,6 +80,7 @@ export class Login extends Component {
                 })
                 .then((data) => {
                     console.log("loginData"+data);
+                    this.props.history.push('/catalog');
                     
                 })
                 .catch((error) => {
@@ -100,7 +102,9 @@ export class Login extends Component {
                 this.handleTokenGenerate();
         }
       }
-
+      loadHomePage(){
+        this.props.history.push('/home');
+    }
     render() { 
         const { validated } = this.state;
         const { error } = this.state;
@@ -118,7 +122,7 @@ export class Login extends Component {
         
         <div className="App-content">
         <div className="fixed-top">
-            <Image src={Logo} rounded thumbnail='true' width='70' height='40'/>
+            <Image src={Logo} rounded thumbnail='true' width='70' height='40' onClick={this.loadHomePage}/>
         </div>
             <div className="container border border-light p-3 mb-2 bg-light text-dark">
             {errorDisplay}
