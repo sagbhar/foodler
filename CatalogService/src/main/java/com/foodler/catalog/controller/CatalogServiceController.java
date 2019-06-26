@@ -71,15 +71,15 @@ public class CatalogServiceController {
 		return catalogService.findAllRestaurants();
 	}
 	
-	@PutMapping(value = "/addOrUpdateRestaurantFoodItems/{shop_id}/{foodItem}/{price}/{inventory}/{isUpdate}",produces = "application/json")
+	@PutMapping(value = "/addOrUpdateRestaurantFoodItems/{shop_id}/{foodItem}/{price}/{inventory}/{isUpdate}/{imageURL}",produces = "application/json")
 	@ApiOperation(value = "Add or Update Restaurant Details", notes = "This API is used to add or update restaurant details")	
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successful updated restaurant details"),
 			@ApiResponse(code = 500, message = "Internal error"),
 			@ApiResponse(code = 404, message = "Error while retrieving the data") })
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public RestaurantListVo  addOrUpdateRestaurantFoodItems(@PathVariable(required = true) String shop_id,@PathVariable(required = true) String foodItem,@PathVariable(required = true) Double price,@PathVariable(required = true) String inventory,@PathVariable(required = true) Boolean isUpdate) {
-		RestaurantListVo vo= catalogService.addOrUpdateFoodItems(shop_id,foodItem,price,inventory,isUpdate);
+	public RestaurantListVo  addOrUpdateRestaurantFoodItems(@PathVariable(required = true) String shop_id,@PathVariable(required = true) String foodItem,@PathVariable(required = true) Double price,@PathVariable(required = true) String inventory,@PathVariable(required = true) Boolean isUpdate,@PathVariable(required = true) String imageURL) {
+		RestaurantListVo vo= catalogService.addOrUpdateFoodItems(shop_id,foodItem,price,inventory,isUpdate,imageURL);
 		return vo;
 	}
 	

@@ -35,12 +35,13 @@ public class CatalogServicesImpl implements CatalogServices {
 
 
 	@Override
-	public RestaurantListVo addOrUpdateFoodItems(String shop_id,String foodItem,Double price,String inventory,Boolean isUpdate) {
+	public RestaurantListVo addOrUpdateFoodItems(String shop_id,String foodItem,Double price,String inventory,Boolean isUpdate,String imageURL) {
 		RestaurantListVo vo = findFoodItemsByShopId(shop_id);
 		RestaurantFoodItems resFood = new RestaurantFoodItems();
 		resFood.setFoodItem(foodItem);
 		resFood.setInventory(inventory);
 		resFood.setPrice(price);
+		resFood.setInventory(imageURL);
 		List<RestaurantFoodItems> foodList =  vo.getRestaurantFoodItems();
 		if(isUpdate) {
 			foodList.stream().forEach(item ->{
@@ -62,5 +63,6 @@ public class CatalogServicesImpl implements CatalogServices {
 	public List<RestaurantListVo> findAllRestaurants() {
 		return catalogRepo.findAll();
 	}
+
 
 }

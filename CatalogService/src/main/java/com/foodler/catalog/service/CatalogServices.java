@@ -15,6 +15,6 @@ public interface CatalogServices {
 
 	RestaurantListVo saveRestaurantFoodDetails(RestaurantListVo resVo);
 	RestaurantListVo findFoodItemsByShopId(String shop_id);
-	RestaurantListVo addOrUpdateFoodItems(String shop_id,String foodItem,Double price,String inventory,Boolean isUpdate);
+	RestaurantListVo addOrUpdateFoodItems(String shop_id,String foodItem,Double price,String inventory,Boolean isUpdate,String imageURL);
 	List<RestaurantListVo> findAllRestaurants();
 }
