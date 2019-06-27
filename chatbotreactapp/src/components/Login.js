@@ -49,6 +49,7 @@ export class Login extends Component {
               .then((data) => {
                   if (typeof data.access_token !== 'undefined') {
                      cookies.set("AccessToken", data.access_token, { path: '/', maxAge: 50000 });
+                     //cookies.set("AccessToken", data.access_token, { httpOnly: true });
                      this.setState({ access_token: data.access_token });
                      this.handleLogin();
                   } else {

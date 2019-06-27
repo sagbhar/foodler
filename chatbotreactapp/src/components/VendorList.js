@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Container, Row, Col, Card, Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import RESTAURANTS from '../restaurants';
 import '../vendorList.css';
 import Cookies from 'universal-cookie';
 export default class VendorList extends Component {
@@ -46,7 +45,7 @@ export default class VendorList extends Component {
       let restaurantDetails = this.state.restaurantDetails;
       let restaurants = [];
       restaurantDetails.map((restaurant) => {
-        let a = "/VendorCatalog/"+restaurant.shopId;
+        let a = "/restaurant/"+restaurant.shopId;
         restaurants.push(<Col ><Link to={a} ><Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={restaurant.imageURL} />
         <Card.Body>
@@ -63,7 +62,6 @@ export default class VendorList extends Component {
               
             <Row>
               {restaurants}
-            
             
             </Row>
               
