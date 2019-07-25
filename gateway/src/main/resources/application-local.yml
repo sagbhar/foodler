@@ -1,0 +1,25 @@
+zuul:
+  routes:  
+    login:
+      url: http://localhost:9014/api
+      sensitiveHeaders:
+      serviceId: login
+    catalog:
+      url: http://localhost:9016/api
+      sensitiveHeaders:
+      serviceId: catalog
+    register:
+      url: http://localhost:9012/api
+      sensitiveHeaders:
+      serviceId: register
+    auth:
+      sensitiveHeaders:
+      url: http://localhost:9999/oauth
+      serviceId: auth-server
+  
+security:
+  oauth2:
+   client:
+      accessTokenUri: http://localhost:8765/auth/token
+      userAuthorizationUri: http://localhost:8765/auth/authorize
+

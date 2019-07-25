@@ -1,0 +1,25 @@
+zuul:
+  routes:  
+    login:
+      url: http://ec2-34-205-62-150.compute-1.amazonaws.com :9014/api
+      sensitiveHeaders:
+      serviceId: login
+    catalog:
+      url: http://ec2-34-205-62-150.compute-1.amazonaws.com :9016/api
+      sensitiveHeaders:
+      serviceId: catalog
+    register:
+      url: http://ec2-34-205-62-150.compute-1.amazonaws.com :9012/api
+      sensitiveHeaders:
+      serviceId: register
+    auth:
+      sensitiveHeaders:
+      url: http://ec2-34-205-62-150.compute-1.amazonaws.com :9999/oauth
+      serviceId: auth-server
+  
+security:
+  oauth2:
+   client:
+      accessTokenUri: http://ec2-34-205-62-150.compute-1.amazonaws.com :8765/auth/token
+      userAuthorizationUri: http://ec2-34-205-62-150.compute-1.amazonaws.com :8765/auth/authorize
+
