@@ -11,12 +11,18 @@ export default class Restaurant extends Component {
         this.generateCatalog = this.generateCatalog.bind(this);
         this.state = {
             restaurantDetails:[],
-            shopId:''
+            shopId:'',
+            selectedItems: []
         };
+        this.updateSelected = this.updateSelected.bind(this);
         
     }
     componentWillMount(){
         this.generateCatalog();
+      }
+      updateSelected(selected) {
+          this.state.selectedItems.push(selected);
+          console.log(this.state.selectedItems);
       }
     
       generateCatalog(){
@@ -51,7 +57,7 @@ export default class Restaurant extends Component {
         let foodItemsList=restaurantDetails.restaurantFoodItems;
         if(undefined!==foodItemsList) {
         foodItemsList.map((foodItem) => {
-            foodItems.push( <FoodItem foodItem={foodItem}/> )
+            foodItems.push( <FoodItem foodItem={foodItem} updateSelected={this.updateSelected}/> )
         })	
     }
         return (
@@ -66,6 +72,7 @@ export default class Restaurant extends Component {
              {foodItems}
            </Col>
              </Row>
+             <button className="btn btn-success">Review Your Order</button>
             </Container>
                
         )
