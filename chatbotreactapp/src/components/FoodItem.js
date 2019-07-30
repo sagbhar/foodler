@@ -54,9 +54,9 @@ export default class FoodItem extends Component {
                      <span>{this.props.foodItem.price}</span>
                 </div>
                 <div className="quantity">
-                    <span className="reduceQuantity" onClick={this.reduceQuantity && this.props.updateSelected(this.props.foodItem)}>-</span>
+                    <span className="reduceQuantity" onClick={(evt) => { this.reduceQuantity();this.props.updateSelected(this.props.foodItem, this.state.quantity);  }}>-</span>
                     <span className="count">{this.state.quantity}</span>
-                    <span className="increaseQuantity" onClick={this.increaseQuantity}>+</span>
+                    <span className="increaseQuantity" onClick={(evt) => {this.increaseQuantity();this.props.updateSelected(this.props.foodItem, this.state.quantity); }}>+</span>
                  </div>
                  
                  <div>
