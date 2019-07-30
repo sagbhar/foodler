@@ -4,11 +4,12 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.foodler.orders.resources.OrderInputResource;
+import com.foodler.orders.resources.OrderOutputResource;
 import com.foodler.orders.vo.OrderItemsVo;
-import com.foodler.orders.vo.OrdersVo;
 
 public interface OrderItemsService {
 
-	public ResponseEntity<OrdersVo> createOrUpdateOrder(OrderItemsVo itemsVo);
+	public OrderOutputResource createOrUpdateOrder(OrderInputResource orderInputResource) ;
 	public List<OrderItemsVo> getOrderDetails(String orderId);
 }

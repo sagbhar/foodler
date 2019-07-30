@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import "../restaurant.css";
 import FoodItem from "./FoodItem";
 import Cookies from "universal-cookie";
+import OrdersService from "./OrdersService";
 
 export default class Restaurant extends Component {
   constructor(props) {
@@ -20,6 +21,15 @@ export default class Restaurant extends Component {
       ]
     };
     this.updateSelected = this.updateSelected.bind(this);
+    this.createOrder = this.createOrder.bind(this);
+  }
+
+  createOrder(orderData){
+    OrdersService.createOrderNew(orderData)
+    .then(response=>{
+      console.log(response)
+      this.props.history.push(`/ordersReview/${response.data.orderId}`)})
+    .catch(error=>console.log(error))
   }
   componentWillMount() {
     this.generateCatalog();
@@ -99,7 +109,14 @@ export default class Restaurant extends Component {
           <Col>{foodItems}</Col>
         </Row>
         <Row>
-          <Col> <button className="btn btn-success">Review Your Order</button></Col>
+          <Col> <button className="btn btn-success" onClick={()=>this.createOrder(
+            {orderId : this.state.orderId,
+             userId : this.state.userId,
+             totalAmt : this.state.totalAmt,
+             status : this.state.status,
+             orderItems : this.state.orderItems
+            }
+              )}>Review Your Order</button></Col>
           <Col> Order Total : {this.state.totalAmt}</Col>
         </Row>
        

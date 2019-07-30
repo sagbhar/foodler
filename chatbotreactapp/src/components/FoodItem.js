@@ -60,12 +60,6 @@ export default class FoodItem extends Component {
                  </div>
                  
                  <div>
-                     <button className="btn btn-success" onClick={() =>this.createOrder(
-                {orderId : this.state.orderItemDetails.orderId,
-                foodItemId : this.props.foodItem.foodItemId,
-                orderItemsPrice :this.props.foodItem.price,
-                inventory : this.state.quantity,
-                status : 'P'})}>Add</button>
                  </div>
                 </div>
                 </Card.Body>

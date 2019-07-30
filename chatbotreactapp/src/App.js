@@ -8,6 +8,7 @@ import { CookiesProvider } from "react-cookie";
 import Header from './components/Header';
 import VendorList from './components/VendorList';
 import Restaurant from './components/Restaurant';
+import OrderReview from "./components/OrderReview";
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/catalog" component={VendorList} />
               <Route exact path="/restaurant/:id" component={Restaurant}/>
+              <Route exact path="/orderReview/:orderId" component={OrderReview} />
             </div>
           </div>
         </Router>

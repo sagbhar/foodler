@@ -14,6 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.foodler.orders.repository.OrderItemsRepository;
 import com.foodler.orders.repository.OrdersRepository;
+import com.foodler.orders.resources.OrderInputResource;
+import com.foodler.orders.resources.OrderItemInputResource;
+import com.foodler.orders.resources.OrderOutputResource;
 import com.foodler.orders.resources.UserDetailsVO;
 import com.foodler.orders.sequence.SequenceGeneratorService;
 import com.foodler.orders.vo.OrderItemsVo;
@@ -31,7 +34,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
 	private SequenceGeneratorService sequenceGenerator;
 
 	// get userDetails
-	public String getUserId(OrderItemsVo itemDetails) {
+	public String getUserId(OrderInputResource itemDetails) {
 		String userId = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.err.println("principal value" + principal);
@@ -58,59 +61,83 @@ public class OrderItemsServiceImpl implements OrderItemsService {
 	}
 
 	// create new order
-	public OrdersVo saveOrder(OrderItemsVo itemDetails) {
+	public OrdersVo saveOrder(OrderInputResource orderInputResource) {
 		OrdersVo ordersVo = new OrdersVo();
-		Double totalAmt = Double.parseDouble(itemDetails.getInventory()) * itemDetails.getOrderItemsPrice();
 		ordersVo.setStatus("P");
-		ordersVo.setUserId(itemDetails.getUserId());
-		ordersVo.setTotalAmt(totalAmt);
+		ordersVo.setUserId(orderInputResource.getUserId());
+		ordersVo.setTotalAmt(orderInputResource.getTotalAmt());
 		ordersVo.setOrderId((String.valueOf(sequenceGenerator.generateSequence(ordersVo.SEQUENCE_NAME))));
 		OrdersVo createdOdr = ordersRepo.insert(ordersVo);
 		return createdOdr;
 	}
 
-	public OrdersVo updateOrder(OrderItemsVo itemDetails) {
+	public OrdersVo updateOrder(OrderInputResource orderInputResource) {
 		OrdersVo ordersVo = new OrdersVo();
-		Double totalAmt = Double.parseDouble(itemDetails.getInventory()) * itemDetails.getOrderItemsPrice();
-		ordersVo.setOrderId(itemDetails.getOrderId());
+		ordersVo.setOrderId(orderInputResource.getOrderId());
 		ordersVo.setStatus("P");
-		ordersVo.setUserId(itemDetails.getUserId());
-		ordersVo.setTotalAmt(totalAmt);
+		ordersVo.setUserId(orderInputResource.getUserId());
+		ordersVo.setTotalAmt(orderInputResource.getTotalAmt());
 		OrdersVo orderResp = ordersRepo.save(ordersVo);
 		return orderResp;
 	}
 
-	@Override
-	public ResponseEntity<OrdersVo> createOrUpdateOrder(OrderItemsVo itemDetails) {
-		OrdersVo newOrder = new OrdersVo();
-		String userId = this.getUserId(itemDetails);
-		itemDetails.setUserId(userId);
-		String orderId = getPendingOrderIdforUser(itemDetails.getUserId());
-		System.err.println("orderId" + orderId );
-		if (itemDetails.getOrderId() != null || orderId != null ) {
-			itemDetails.setOrderId(orderId);
-			newOrder = this.updateOrder(itemDetails);
-		} else {
-			newOrder = this.saveOrder(itemDetails);
-			itemDetails.setOrderId(newOrder.getOrderId());
-		}
-		this.addOrderItem(itemDetails);
-		return new ResponseEntity<OrdersVo>(newOrder,HttpStatus.OK);
-	}
+	/*
+	 * @Override public ResponseEntity<OrdersVo>
+	 * createOrUpdateOrder(OrderInputResource orderInputResource) { OrdersVo
+	 * newOrder = new OrdersVo(); String userId = this.getUserId(itemDetails);
+	 * itemDetails.setUserId(userId); String orderId =
+	 * getPendingOrderIdforUser(itemDetails.getUserId());
+	 * System.err.println("orderId" + orderId ); if (itemDetails.getOrderId() !=
+	 * null || orderId != null ) { itemDetails.setOrderId(orderId); newOrder =
+	 * this.updateOrder(itemDetails); } else { newOrder =
+	 * this.saveOrder(itemDetails); itemDetails.setOrderId(newOrder.getOrderId()); }
+	 * this.addOrderItem(itemDetails); return new
+	 * ResponseEntity<OrdersVo>(newOrder,HttpStatus.OK); }
+	 */
 
-	// add the orderItems to the order
-	public void addOrderItem(OrderItemsVo itemDetails) {
-		List<OrderItemsVo> orderItemDetais = orderItemsRepo.findByOrderIdAndFoodItemId(itemDetails.getOrderId(),itemDetails.getFoodItemId());
-		String orderItemId = null;
-		if(orderItemDetais.size()>0) {
-			orderItemId = orderItemDetais.get(0).getOrderItemId();
+	
+	@Override
+	public OrderOutputResource createOrUpdateOrder(OrderInputResource orderInputResource) {
+		OrdersVo newOrder = new OrdersVo();
+		OrderOutputResource orderOutputRes = new OrderOutputResource();
+		String userId = this.getUserId(orderInputResource);
+		orderInputResource.setUserId(userId);
+		if (orderInputResource.getOrderId() != null ) {
+			newOrder = this.updateOrder(orderInputResource);
+		} else {
+			newOrder = this.saveOrder(orderInputResource);
+			orderInputResource.setOrderId(newOrder.getOrderId());
 		}
-		if(orderItemId != null) {
-			itemDetails.setOrderItemId(orderItemId);
-			orderItemsRepo.save(itemDetails);
+		if(orderInputResource.getOrderItems().size() >0) {
+			for(OrderItemInputResource orderItemInputResource : orderInputResource.getOrderItems()) {
+				this.addOrderItem(orderItemInputResource, newOrder.getOrderId());
+			}
+		}
+		orderOutputRes.setOrderId(newOrder.getOrderId());
+		return orderOutputRes;
+	}
+	
+	// add the orderItems to the order
+	public void addOrderItem(OrderItemInputResource orderItemInputResource,String orderId) {
+		//List<OrderItemsVo> orderItemDetais = orderItemsRepo.findByOrderIdAndFoodItemId(itemDetails.getOrderId(),itemDetails.getFoodItemId());
+		/*
+		 * String orderItemId = null; if(orderItemDetais.size()>0) { orderItemId =
+		 * orderItemDetais.get(0).getOrderItemId(); }
+		 */
+		OrderItemsVo orderItemsVo = new OrderItemsVo();
+		orderItemsVo.setOrderId(orderId);
+		orderItemsVo.setFoodItemId(orderItemInputResource.getFoodItemId());
+		orderItemsVo.setOrderItemsPrice(orderItemInputResource.getOrderItemsPrice());
+		orderItemsVo.setInventory(orderItemInputResource.getInventory());
+		orderItemsVo.setStatus("P");
+		orderItemsVo.setUserId(orderItemInputResource.getUserId());
+		
+		if(orderItemInputResource.getOrderItemId() != null) {
+			orderItemsVo.setOrderItemId(orderItemInputResource.getOrderItemId());
+			orderItemsRepo.save(orderItemsVo);
 		}else {
-		itemDetails.setOrderItemId((String.valueOf(sequenceGenerator.generateSequence(itemDetails.SEQUENCE_NAME))));
-		orderItemsRepo.insert(itemDetails);
+		orderItemsVo.setOrderItemId((String.valueOf(sequenceGenerator.generateSequence(orderItemsVo.SEQUENCE_NAME))));
+		orderItemsRepo.insert(orderItemsVo);
 		}
 	}
 	

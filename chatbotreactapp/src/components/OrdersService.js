@@ -20,6 +20,24 @@ class OrdersService {
         }
         );
     }
+
+    createOrderNew(orderItemDetails){
+        const cookies = new Cookies(); 
+        console.log("dfdfdfdfd");
+        let contentType = 'Content-Type';
+        console.log('orderItemDetails' +orderItemDetails);
+        let authToken = cookies.get('AccessToken');
+        return axios.post("http://localhost:8765/orders/addOrder", orderItemDetails,
+        {
+            headers : {
+                Accept : 'application/json',
+                Authorization : 'Bearer '+ authToken,
+                ContentType : 'application/x-www-form-urlencoded'
+            }
+        }
+        );
+    }
+    
     findOrders(){
         const cookies = new Cookies(); 
         let contentType = 'Content-Type';

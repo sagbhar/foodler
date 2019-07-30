@@ -8,7 +8,7 @@ public class OrderInputResource {
 	private String userId;
 	private Double totalAmt;
 	private String status;
-	private List<OrderItemInputResource> orderItemsDetails;
+	private List<OrderItemInputResource> orderItems;
 	
 	public String getOrderId() {
 		return orderId;
@@ -22,11 +22,12 @@ public class OrderInputResource {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public List<OrderItemInputResource> getOrderItemsDetails() {
-		return orderItemsDetails;
+
+	public List<OrderItemInputResource> getOrderItems() {
+		return orderItems;
 	}
-	public void setOrderItemsDetails(List<OrderItemInputResource> orderItemsDetails) {
-		this.orderItemsDetails = orderItemsDetails;
+	public void setOrderItems(List<OrderItemInputResource> orderItems) {
+		this.orderItems = orderItems;
 	}
 	public Double getTotalAmt() {
 		return totalAmt;
