@@ -153,6 +153,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
 			orderItemOutputResource.setInventory(itemDetails.getInventory());
 			orderItemOutputResource.setStatus(itemDetails.getStatus());
 			orderItemOutputResource.setUserId(itemDetails.getUserId());
+			orderItemOutputResource.setOrderItemsPrice(itemDetails.getOrderItemsPrice());
 			orderItemOutputList.add(orderItemOutputResource);
 		}
 		return orderItemOutputList;

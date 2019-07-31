@@ -38,11 +38,11 @@ class OrdersService {
         );
     }
     
-    findOrders(orderId){
+    getOrderDetails(orderId){
         const cookies = new Cookies(); 
         let contentType = 'Content-Type';
         let authToken = cookies.get('AccessToken');
-        return axios.get('http://localhost:8765/orders/listOrderItems/${orderId}', 
+        return axios.get(`http://localhost:8765/orders/listOrderItems/${orderId}`, 
         {
             headers : {
                 Accept : 'application/json',

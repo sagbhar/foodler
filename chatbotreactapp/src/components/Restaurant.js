@@ -27,10 +27,6 @@ export default class Restaurant extends Component {
   createOrder(orderData) {
     OrdersService.createOrderNew(orderData)
       .then(response => {
-        console.log(response);
-        OrdersService.findOrders(response.data.orderId).then(ordersData =>
-          console.log(ordersData)
-        );
         this.props.history.push(`/ordersReview/${response.data.orderId}`);
       })
       .catch(error => console.log(error));

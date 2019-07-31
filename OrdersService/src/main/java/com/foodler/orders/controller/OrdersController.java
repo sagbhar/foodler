@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class OrdersController {
 	}
 	
 	@GetMapping(value="/listOrderItems/{orderId}")
-	public ResponseEntity<List<OrderItemOutputResource>> getAllOrderItems(@RequestParam String orderId) {
+	public ResponseEntity<List<OrderItemOutputResource>> getAllOrderItems(@PathVariable("orderId") String orderId) {
 		List<OrderItemOutputResource> itemsList =  orderItemService.getOrderDetails(orderId);
 		return new ResponseEntity<List<OrderItemOutputResource>>(itemsList,HttpStatus.OK);
 	}
