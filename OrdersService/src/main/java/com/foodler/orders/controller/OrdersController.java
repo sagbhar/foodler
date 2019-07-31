@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.foodler.orders.resources.OrderInputResource;
+import com.foodler.orders.resources.OrderItemOutputResource;
 import com.foodler.orders.resources.OrderOutputResource;
 import com.foodler.orders.services.OrderItemsServiceImpl;
-import com.foodler.orders.vo.OrderItemsVo;
 
 @RestController
 @RequestMapping("/orders")
@@ -39,7 +39,8 @@ public class OrdersController {
 	}
 	
 	@GetMapping(value="/listOrderItems/{orderId}")
-	public List<OrderItemsVo> getAllOrderItems(@RequestParam String orderId) {
-		return orderItemService.getOrderDetails(orderId);
+	public ResponseEntity<List<OrderItemOutputResource>> getAllOrderItems(@RequestParam String orderId) {
+		List<OrderItemOutputResource> itemsList =  orderItemService.getOrderDetails(orderId);
+		return new ResponseEntity<List<OrderItemOutputResource>>(itemsList,HttpStatus.OK);
 	}
 }

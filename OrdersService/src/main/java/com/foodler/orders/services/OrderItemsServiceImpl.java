@@ -1,12 +1,11 @@
 package com.foodler.orders.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +15,7 @@ import com.foodler.orders.repository.OrderItemsRepository;
 import com.foodler.orders.repository.OrdersRepository;
 import com.foodler.orders.resources.OrderInputResource;
 import com.foodler.orders.resources.OrderItemInputResource;
+import com.foodler.orders.resources.OrderItemOutputResource;
 import com.foodler.orders.resources.OrderOutputResource;
 import com.foodler.orders.resources.UserDetailsVO;
 import com.foodler.orders.sequence.SequenceGeneratorService;
@@ -142,7 +142,19 @@ public class OrderItemsServiceImpl implements OrderItemsService {
 	}
 	
 	@Override
-	public List<OrderItemsVo> getOrderDetails(String orderId){
-		return(orderItemsRepo.findByOrderId(orderId));
+	public List<OrderItemOutputResource> getOrderDetails(String orderId){
+		List<OrderItemOutputResource> orderItemOutputList =new ArrayList<OrderItemOutputResource>();
+		List<OrderItemsVo> itemsList = orderItemsRepo.findByOrderId(orderId);
+		for(OrderItemsVo itemDetails : itemsList) {
+			OrderItemOutputResource orderItemOutputResource = new OrderItemOutputResource();
+			orderItemOutputResource.setFoodItemId(itemDetails.getFoodItemId());
+			orderItemOutputResource.setOrderId(itemDetails.getOrderId());
+			orderItemOutputResource.setOrderItemId(itemDetails.getOrderItemId());
+			orderItemOutputResource.setInventory(itemDetails.getInventory());
+			orderItemOutputResource.setStatus(itemDetails.getStatus());
+			orderItemOutputResource.setUserId(itemDetails.getUserId());
+			orderItemOutputList.add(orderItemOutputResource);
+		}
+		return orderItemOutputList;
 	}
 }

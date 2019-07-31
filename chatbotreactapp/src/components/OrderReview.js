@@ -1,11 +1,14 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
+import OrdersService from './OrdersService';
 
 class OrderReview extends Component {
-    render(){
+  render(){
     return(
-      <h1>sdfdfd</h1>
-    );
-    }
+        <div className="container">
+          dfdsfdfdfd
+        </div>
+    )
+}
 }
 
 export default OrderReview;
