@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import RESTAURANTS from "../restaurants";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import "../restaurant.css";
 import FoodItem from "./FoodItem";
 import Cookies from "universal-cookie";
@@ -17,22 +18,22 @@ export default class Restaurant extends Component {
       userId: null,
       totalAmt: 0,
       status: "P",
-      orderItems: [
-      ]
+      orderItems: []
     };
     this.updateSelected = this.updateSelected.bind(this);
     this.createOrder = this.createOrder.bind(this);
   }
 
-  createOrder(orderData){
+  createOrder(orderData) {
     OrdersService.createOrderNew(orderData)
-    .then(response=>{
-      console.log(response)
-      OrdersService.findOrders(response.data.orderId)
-      .then(ordersData =>console.log(ordersData))
-      this.props.history.push(`/ordersReview/${response.data.orderId}`)
-    })
-    .catch(error=>console.log(error))
+      .then(response => {
+        console.log(response);
+        OrdersService.findOrders(response.data.orderId).then(ordersData =>
+          console.log(ordersData)
+        );
+        this.props.history.push(`/ordersReview/${response.data.orderId}`);
+      })
+      .catch(error => console.log(error));
   }
   componentWillMount() {
     this.generateCatalog();
@@ -47,20 +48,23 @@ export default class Restaurant extends Component {
       }
     });
     if (!flagForUpdate) {
-      this.state.orderItems.push({foodItemId: foodItem.foodItemId, orderItemsPrice: foodItem.price, inventory: quantity, status: "P"});
+      this.state.orderItems.push({
+        foodItemId: foodItem.foodItemId,
+        orderItemsPrice: foodItem.price,
+        inventory: quantity,
+        status: "P"
+      });
     }
     this.updateTotal();
     console.log(this.state.orderItems);
   }
   updateTotal() {
-    let total =0;
+    let total = 0;
     this.state.orderItems.map(orderItem => {
-        total +=orderItem.orderItemsPrice*orderItem.inventory;
+      total += orderItem.orderItemsPrice * orderItem.inventory;
     });
-    this.setState({totalAmt: total});
-
-  } 
-  
+    this.setState({ totalAmt: total });
+  }
 
   generateCatalog() {
     let headers = new Headers();
@@ -105,6 +109,14 @@ export default class Restaurant extends Component {
       <Container>
         <Row>
           <Col>
+            <Link to="/catalog" className="btn btn-sm btn-info">
+              {" "}
+              Go Back
+            </Link>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             <h1>{restaurantDetails.restaurantName}</h1>
           </Col>
         </Row>
@@ -112,17 +124,25 @@ export default class Restaurant extends Component {
           <Col>{foodItems}</Col>
         </Row>
         <Row>
-          <Col> <button className="btn btn-success" onClick={()=>this.createOrder(
-            {orderId : this.state.orderId,
-             userId : this.state.userId,
-             totalAmt : this.state.totalAmt,
-             status : this.state.status,
-             orderItems : this.state.orderItems
-            }
-              )}>Review Your Order</button></Col>
+          <Col>
+            {" "}
+            <button
+              className="btn btn-success"
+              onClick={() =>
+                this.createOrder({
+                  orderId: this.state.orderId,
+                  userId: this.state.userId,
+                  totalAmt: this.state.totalAmt,
+                  status: this.state.status,
+                  orderItems: this.state.orderItems
+                })
+              }
+            >
+              Review Your Order
+            </button>
+          </Col>
           <Col> Order Total : {this.state.totalAmt}</Col>
         </Row>
-       
       </Container>
     );
   }

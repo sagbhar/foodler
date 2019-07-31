@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import ReactDOM from 'react-dom';
 import Alert from 'react-bootstrap/Alert';
 import Cookies from 'universal-cookie';
+import { loginUser } from '../actions/authActions';
 
 export class Login extends Component {
     
@@ -21,68 +24,21 @@ export class Login extends Component {
             access_token:''
         };
       }
+      componentDidMount() {
+          if(this.props.auth.isAuthenticated) {
+              this.props.history.push('/catalog');
+          }
+      }
+      componentWillReceiveProps(nextProps) {
+          if(nextProps.auth.isAuthenticated) {
+              this.props.history.push('/catalog');
+          }
+      }
     
       handleDismiss(event){
         this.setState({ show: false });
       }
-      handleTokenGenerate(){
-        const formData = new URLSearchParams();
-        const cookies = new Cookies();
-        formData.append('grant_type', 'password');
-        formData.append('username', this.refs.emailId.value);
-        formData.append('password', this.refs.password.value);
-        
-        let headers = new Headers();
-      
-        headers.append('Accept','application/json');
-        headers.append('Content-Type','application/x-www-form-urlencoded');
-        headers.append('Authorization',  'Basic aGVuZGktY2xpZW50OmhlbmRpLXNlY3JldA==');
-          
-          fetch('http://localhost:8765/auth/token', {
-              method: 'POST',
-              headers: headers,
-              body: formData,
-          })
-              .then(res => { 
-                  return res.json();
-              })
-              .then((data) => {
-                  if (typeof data.access_token !== 'undefined') {
-                     cookies.set("AccessToken", data.access_token, { path: '/', maxAge: 50000 });
-                     //cookies.set("AccessToken", data.access_token, { httpOnly: true });
-                     this.setState({ access_token: data.access_token });
-                     this.handleLogin();
-                  } else {
-                      this.setState({ message: "Login Failed" });
-                      this.setState({ error: true });
-                  }
-              })
-              .catch((error) => {
-                  console.error("ErrorData" + error);
-              });
-      }
-      handleLogin(){
-        fetch('http://localhost:8765/login/login', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ this.state.access_token,
-            },
-            body: '',
-            })  
-                .then((res) => {
-                    return res.json();
-                })
-                .then((data) => {
-                    console.log("loginData"+data);
-                    this.props.history.push('/catalog');
-                    
-                })
-                .catch((error) => {
-                    console.error("ErrorData" + error);
-                });
-      }  
+     
 
       handleSubmit(event) {
         const form = event.currentTarget;
@@ -92,10 +48,15 @@ export class Login extends Component {
         }
         this.setState({ validated: true });
         this.setState({ show: true });
+        const formData = new URLSearchParams();
+      
+        formData.append('grant_type', 'password');
+        formData.append('username', this.refs.emailId.value);
+        formData.append('password', this.refs.password.value);
         
        if (ReactDOM.findDOMNode(this.refs.emailId).value !== '' &&
             ReactDOM.findDOMNode(this.refs.password).value !== '') {
-                this.handleTokenGenerate();
+                this.props.loginUser(formData);
         }
       }
 
@@ -146,5 +107,12 @@ export class Login extends Component {
         
     }
 }
+Login.propTypes = {
+    loginUser: PropTypes.func.isRequired
+}
 
-export default Login;
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, { loginUser })(Login);
