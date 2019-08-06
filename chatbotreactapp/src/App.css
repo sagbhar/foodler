@@ -3,7 +3,18 @@
     padding:0;
     box-sizing: border-box;
 }
+.invalid-feedback {
+    font-size: 1em !important;
+}
 .app-container {
     max-width: 100%;
+    min-height: 100%;
+     background: url(./img/landingImage.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.container {
     padding-top: 100px;
 }

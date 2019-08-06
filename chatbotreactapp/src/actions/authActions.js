@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, GET_ERRORS } from "./types";
+import { SET_CURRENT_USER, GET_ERRORS, GET_CATALOG } from "./types";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -32,7 +32,7 @@ export const loginUser = userData => dispatch => {
     .catch(error =>
       dispatch({
         type: GET_ERRORS,
-        payload: error
+        payload: error.response.data
       })
     );
 };
@@ -61,7 +61,7 @@ const handleLogin = (dispatch)  => {
 
 // sets the current user
 
-const setCurrentUser = (decoded) => {
+export const setCurrentUser = (decoded) => {
   return {
     type: SET_CURRENT_USER,
     payload: decoded
@@ -73,4 +73,9 @@ const setCurrentUser = (decoded) => {
 export const logoutUser = () => dispatch => {
   cookies.remove('AccessToken');
   dispatch(setCurrentUser({}));
+  dispatch({
+    type: GET_CATALOG, 
+    payload: []
+  })
+
 }

@@ -1,3 +1,38 @@
 .bg-transparent {
     background-color: white;
 }
+
+#basic-navbar-nav {
+    width: 100%;
+    justify-content: flex-end;
+    
+}
+
+.navbar .navbar-toggler{
+   background-color: black !important;
+}
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+.navbar-nav a:hover {
+    background-color: white;
+    color: black !important;
+}
+
+.site-icon {
+    border: none !important;
+    filter: invert(1);
+}
+
+.logoutLink {
+    border-radius: 5px;
+    color: white !important;
+    padding: 2px 15px !important;
+    border: 1px solid white;
+}
+@media screen and (max-width: 768px) {
+    #basic-navbar-nav {
+        background-color: black;
+    }
+   
+}

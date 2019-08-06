@@ -7,6 +7,7 @@
     text-decoration: none;
 }
 
+
 @media screen and (min-width:1024px) {
     .col {
         margin-bottom: 10px;

@@ -19,7 +19,7 @@ class OrderReview extends Component {
      this.setState({
        orderItems : response.data
      })
-      console.log(this.state.orderItems)
+      console.log('orderItems' + this.state.orderItems)
     }
    )
   }
@@ -50,6 +50,7 @@ class OrderReview extends Component {
    
     return(
       <div className="container">
+        shjdhsdshj
         <Card>
           <Card.Body>
            {orderItemContent}

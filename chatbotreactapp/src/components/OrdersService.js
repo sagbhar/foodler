@@ -3,7 +3,6 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 class OrdersService {
-
     createOrder(orderItemDetails){
         const cookies = new Cookies(); 
         console.log("dfdfdfdfd");

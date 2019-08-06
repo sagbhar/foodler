@@ -46,17 +46,26 @@ export default class FoodItem extends Component {
    }
     render() {
         return (
-            <Card>
-            <Card.Body>
+            <Card className="foodItemCard">
+            <Card.Body className="foodItemCardBody">
                 <div className="foodItem">
                  <div className="foodItemDetails">
+                     <div className="foodItemImage">
+                     <img src={this.props.foodItem.imageUrl} width={48} height={48}></img>
+                     </div>
+                     <div className="foodItemName">
                      <span>{this.props.foodItem.foodItem}</span>
+                     </div>
+                     <div className="foodItemPrice">
                      <span>{this.props.foodItem.price}</span>
+                     </div>
                 </div>
                 <div className="quantity">
+                    <div className="quantityWidget">
                     <span className="reduceQuantity" onClick={(evt) => { this.reduceQuantity();this.props.updateSelected(this.props.foodItem, this.state.quantity);  }}>-</span>
                     <span className="count">{this.state.quantity}</span>
                     <span className="increaseQuantity" onClick={(evt) => {this.increaseQuantity();this.props.updateSelected(this.props.foodItem, this.state.quantity); }}>+</span>
+                    </div>
                  </div>
                  
                  <div>
