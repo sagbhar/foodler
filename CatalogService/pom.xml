@@ -14,9 +14,6 @@
 	<name>CatalogService</name>
 	<description>Catalog Service </description>
 
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -52,6 +49,21 @@
 		    <artifactId>swagger-annotations</artifactId>
 		    <version>1.5.6</version>
 		</dependency>
+		<dependency>
+		    <groupId>javax.xml.bind</groupId>
+		    <artifactId>jaxb-api</artifactId>
+		    </dependency>
+		<dependency>
+		    <groupId>javax.activation</groupId>
+		    <artifactId>activation</artifactId>
+		    <version>1.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+		<dependency>
+		    <groupId>org.glassfish.jaxb</groupId>
+		    <artifactId>jaxb-runtime</artifactId>
+		    </dependency>
 	</dependencies>
 
 	<build>

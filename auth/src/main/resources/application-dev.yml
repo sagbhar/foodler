@@ -1,0 +1,3 @@
+transaction:
+  findUserByEmailId:
+    URL: http://ec2-34-205-62-150.compute-1.amazonaws.com:8765/register/findUserByEmailId/{username}
