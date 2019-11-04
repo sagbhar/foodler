@@ -1,0 +1,42 @@
+
+.loginFormContainer {
+    max-width: 100%;
+    min-height: 100%;
+    background-image:  url(./img/landingImage1.jpeg);
+    background-size: cover;
+}
+
+.loginForm {
+    width: 25%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+.form-label {
+    font-size: 2em;
+    color: aliceblue;
+}
+.text-muted {
+    font-size: larger;
+    color: aliceblue !important;
+}
+
+@media screen and (max-width: 768px) {
+    .loginForm {
+        width: 50%;
+    }
+    .form-label {
+        font-size: 1.5em;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .loginForm {
+        width: 100%;
+        padding: 20px;
+    }
+    
+}

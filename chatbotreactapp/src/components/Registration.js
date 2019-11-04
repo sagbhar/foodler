@@ -3,7 +3,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import ReactDOM from 'react-dom';
-import Alert from 'react-bootstrap/Alert'
+import Alert from 'react-bootstrap/Alert';
+import '../registration.css';
 
 export class Registration extends Component {
     constructor(props) {
@@ -108,13 +109,16 @@ export class Registration extends Component {
                                 {error} Caused By {message}
                             </Alert>
         }
-        return (<div className="container">
-            {errorDisplay}
-            <h2>User Registration Form</h2>
+        return (
+        <div className="registrationFormContainer">
+          
+            
             <Form noValidate
-                validated={validated}>
+                validated={validated} className="registrationForm">
+                      {errorDisplay}
+                    <h2>User Registration Form</h2>
                 <Form.Group as={Col} controlId="formFirstName">
-                    <Form.Label>First Name</Form.Label>
+                   
                     <Form.Control placeholder="First Name" ref ='firstName' required/>
                     <Form.Control.Feedback type="invalid">
                         Please enter the first Name.
@@ -122,7 +126,7 @@ export class Registration extends Component {
                 </Form.Group>
             
                 <Form.Group as={Col} controlId="formLastName">
-                    <Form.Label>Last Name</Form.Label>
+                   
                     <Form.Control placeholder="Last Name" ref ='lastName' required/>
                     <Form.Control.Feedback type="invalid">
                         Please enter the last Name.
@@ -130,7 +134,7 @@ export class Registration extends Component {
                 </Form.Group>
                 
                 <Form.Group as={Col} controlId="formMobileNumber">
-                    <Form.Label>Mobile Number</Form.Label>
+                   
                     <Form.Control placeholder="Mobile Number" ref ='mob' required/>
                     <Form.Control.Feedback type="invalid">
                         Please enter the mobile Number.
@@ -138,7 +142,7 @@ export class Registration extends Component {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formEmail">
-                    <Form.Label>Email Address</Form.Label>
+                   
                     <Form.Control type='Email' placeholder="Email Address" ref ='emailId' required/>
                     <Form.Control.Feedback type="invalid">
                         Please enter the email address.
@@ -146,7 +150,7 @@ export class Registration extends Component {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formPassword">
-                    <Form.Label>Password</Form.Label>
+                    
                     <Form.Control type='Password' placeholder="Password" ref ='password' required/>
                     <Form.Control.Feedback type="invalid">
                         Please enter the password.
@@ -154,7 +158,7 @@ export class Registration extends Component {
                 </Form.Group>
                 
                 <Form.Group as={Col} controlId="formUserType">
-                    <Form.Label>User Type</Form.Label>
+                   
                     <Form.Control as="select" ref ='selectedUserType' onChange={this.handleUserTypeSelection} required>
                         <option value="">Select</option>
                         <option value="1">Employee</option>
@@ -166,7 +170,7 @@ export class Registration extends Component {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formShopName">
-                    <Form.Label>Shop Name</Form.Label>
+                   
                     <Form.Control disabled={this.state.justClicked} ref ='selectedshopName' placeholder="Shop Name" required/>
                     <Form.Control.Feedback type="invalid">
                         Please enter the Shop Name.

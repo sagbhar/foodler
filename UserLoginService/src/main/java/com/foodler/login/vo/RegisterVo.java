@@ -2,6 +2,7 @@ package com.foodler.login.vo;
 
 public class RegisterVo {
 
+	private String userId;
 	private String emailId;
 	private String password;
 	private String userType;
@@ -52,4 +53,11 @@ public class RegisterVo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 }

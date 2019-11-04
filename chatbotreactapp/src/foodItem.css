@@ -5,11 +5,29 @@
 }
 .foodItemDetails {
     display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    font-size: 1.3em;
+    
+}
+.foodItemImage, .foodItemName, .foodItemPrice {
+    display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: center;
+}
+.foodItemImage img {
+    border-radius: 50%;
 }
 .quantity {
     display: flex;
-    height: 30px;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.3em;
+}
+.quantityWidget {
+    display: flex;
+    min-height: 30px;
 }
 .reduceQuantity, .count, .increaseQuantity {
     border: 1px solid rgba(0,0,0,.125);
@@ -29,6 +47,12 @@
     border-left: none;
     border-right: none;
 }
-    .card {
-        margin:20px 0;
-    }
+
+.card {
+    margin:20px 0;
+}
+
+.foodItemCardBody {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
